@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Calculations</title>
+</head>
+<body>
+    <h1>Number Calculations</h1>
+    
+    <!-- Input for the number -->
+    <label for="numberInput">Enter a number:</label>
+    <input type="value" id="numberInput"><br>
+    
+    <!-- Radio buttons for calculation selection -->
+    <label for="factorial">Factorial</label>
+    <input type="radio" id="factorial" name="calculation" value="factorial"><br>
+    <label for="fibonacci">Fibonacci</label>
+    <input type="radio" id="fibonacci" name="calculation" value="fibonacci"><br>
+    <label for="armstrong">Armstrong</label>
+    <input type="radio" id="armstrong" name="calculation" value="armstrong"><br>
+    
+    <!-- Button to perform the calculation -->
+    <button onclick="performCalculation()">Calculate</button>
+    
+    <!-- Result display -->
+    <p id="result"></p>
+
+    <script>
+        function performCalculation() {
+            // Get the selected calculation (factorial, fibonacci, or armstrong)
+            const calculation = document.querySelector('input[name="calculation"]:checked').value;
+            
+            // Get the user input number
+            const numberInput = parseInt(document.getElementById("numberInput").value);
+            
+            if (!isNaN(numberInput) && numberInput >= 0) {
+                // Perform the selected calculation using switch-case
+                let result;
+                switch (calculation) {
+                    case "factorial":
+                        result = factorial(numberInput);
+                        break;
+                    case "fibonacci":
+                        result = fibonacci(numberInput);
+                        break;
+                    case "armstrong":
+                        result = isArmstrong(numberInput) ? "Armstrong number" : "Not an Armstrong number";
+                        break;
+                    default:
+                        result = "Invalid calculation type";
+                        break;
+                }
+                
+                // Display the result
+                document.getElementById("result").textContent = `Result: ${result}`;
+            } else {
+                // Display an error message if the input is not a non-negative number
+                document.getElementById("result").textContent = "Please enter a non-negative number.";
+            }
+        }
+        
+        // Function to calculate factorial
+        function factorial(n) {
+            if (n === 0) {
+                return 1;
+            }
+            return n * factorial(n - 1);
+        }
+        
+        // Function to calculate Fibonacci
+        function fibonacci(n) {
+            if (n <= 1) {
+                return n;
+            }
+            let prev = 0, current = 1, next;
+            for (let i = 2; i <= n; i++) {
+                next = prev + current;
+                prev = current;
+                current = next;
+            }
+            return current;
+        }
+        
+        // Function to check if a number is an Armstrong number
+        function isArmstrong(n) {
+            let sum = 0;
+            let temp = n;
+            const numDigits = n.toString().length;
+            while (temp > 0) {
+                const digit = temp % 10;
+                sum += Math.pow(digit, numDigits);
+                temp = Math.floor(temp / 10);
+            }
+            return sum === n;
+        }
+    </script>
+</body>
+</html>
